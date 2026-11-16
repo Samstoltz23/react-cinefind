@@ -1,15 +1,19 @@
 function Nav() {
-  return(
-    <section class="navbar">
-      <div class="nav">
-        <div class="nav__content--wrapper">
-          <div class="logo__container">
-            <img class="logo__img" src="assets/images.png" alt="" />
-            <span class="logo__text">CineFind</span>
+  return (
+    <section className="navbar">
+      <div className="nav">
+        <div className="nav__content--wrapper">
+          <div className="logo__container">
+            <img className="logo__img" src="src/assets/images.png" alt="CineFind" />
+            <span className="logo__text">CineFind</span>
           </div>
-          <div class="nav__links">
-            <a href="#" class="link">Home</a>
-            <a href="#discover" class="link">Discover</a>
+          <div className="nav__links">
+            <a href="/" className="link">
+              Home
+            </a>
+            <a href="/discover" className="link">
+              Discover
+            </a>
           </div>
         </div>
       </div>
