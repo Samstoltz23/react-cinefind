@@ -4,7 +4,7 @@ function Discover() {
     <div className="container">
       <div className="row">
         <h2>Discover Movies</h2>
-        <label for="sortSelect">Sort Movies:</label>
+        <label htmlFor="sortSelect">Sort Movies:</label>
         <select id="sortSelect">
           <option value="az">Title: A_Z</option>
           <option value="za">Title: Z_A</option>
