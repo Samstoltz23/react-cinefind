@@ -1,5 +1,6 @@
 //api key = 624cd05f
 
+
 import { useState } from "react";
 
 const Home = () => {
@@ -91,6 +92,19 @@ const Home = () => {
             </button>
           </form>
         </div>
+      </section>
+      <section className="movie_results">
+        {message && <p>{message}</p>}
+
+        {movies.map((movie) => (
+          <article key={movie.imdbID} className="movie__card">
+            {movie.Poster !== "N/A" && (
+              <img src={movie.Poster} alt={`${movie.Title} poster`} />
+            )}
+            <h2>{movie.Title}</h2>
+            <p>{movie.Year}</p>
+          </article>
+        ))}
       </section>
     </div>
   );
