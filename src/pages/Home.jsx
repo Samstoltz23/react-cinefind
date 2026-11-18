@@ -1,6 +1,49 @@
-import axios from "axios";
+//api key = 624cd05f
+
+import { useState } from "react";
 
 const Home = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async(e) => {
+    e.preventDefault();
+
+    const title = searchQuery.trim();
+
+    if (!title) {
+      setMessage("Enter a movie title to search.");
+      setMovies([]);
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+    setMovies([]);
+
+    try {
+      const apiKey = process.env.REACT_APP_OMDB_API_KEY;
+      const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(title)}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.Response === "True") {
+        setMovies(data.Search);
+        setMessage("");
+      } else {
+        setMovies([]);
+        setMessage(data.Error || "No movies found.");
+      }
+    } catch {
+      setMovies([]);
+      setMessage("Could not load movies. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <section className="hero">
@@ -34,15 +77,17 @@ const Home = () => {
           <p className="sub-title">
             Find something you'll love from thousands of movies
           </p>
-          <form id="searchForm" className="search__bar">
+          <form id="searchForm" className="search__bar" onSubmit={handleSearch}>
             <input
               id="searchInput"
               className="search__input"
               type="text"
               placeholder="Search by title..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button id="searchButton" className="search__btn" type="submit">
-              Search
+            <button id="searchButton" className="search__btn" type="submit" disabled={loading}>
+              {loading ? "Searching..." : "Search"}
             </button>
           </form>
         </div>

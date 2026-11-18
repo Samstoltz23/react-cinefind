@@ -1,5 +1,6 @@
 
 import logo from "../assets/images.png";
+import { Link } from "react-router-dom";
 
 function Nav() {
   return (
@@ -11,12 +12,12 @@ function Nav() {
             <span className="logo__text">CineFind</span>
           </div>
           <div className="nav__links">
-            <a href="/" className="link">
+            <Link to="/" className="link">
               Home
-            </a>
-            <a href="/discover" className="link">
+            </Link>
+            <Link to="/discover" className="link">
               Discover
-            </a>
+            </Link>
           </div>
         </div>
       </div>
