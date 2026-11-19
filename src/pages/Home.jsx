@@ -1,15 +1,17 @@
 //api key = 624cd05f
 
-
 import { useState } from "react";
+import MovieCard from "./MovieCard";
+import MovieDetails from "./MovieDetails";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedMovieID, setSelectedMovieID] = useState(null);
 
-  const handleSearch = async(e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
 
     const title = searchQuery.trim();
@@ -87,25 +89,38 @@ const Home = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button id="searchButton" className="search__btn" type="submit" disabled={loading}>
+            <button
+              id="searchButton"
+              className="search__btn"
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Searching..." : "Search"}
             </button>
           </form>
         </div>
       </section>
-      <section className="movie_results">
+
+      <section id="results">
         {message && <p>{message}</p>}
 
-        {movies.map((movie) => (
-          <article key={movie.imdbID} className="movie__card">
-            {movie.Poster !== "N/A" && (
-              <img src={movie.Poster} alt={`${movie.Title} poster`} />
-            )}
-            <h2>{movie.Title}</h2>
-            <p>{movie.Year}</p>
-          </article>
-        ))}
+        <div className="movie__grid">
+         {movies.map((movie) => (
+          <MovieCard 
+            key={movie.imdbID}
+            movie={movie}
+            onSelect={setSelectedMovieID} 
+          />
+        ))} 
+        </div>
       </section>
+
+      {selectedMovieID && (
+        <MovieDetails
+          imdbID={selectedMovieID}
+          onClose={() => setSelectedMovieID()}
+        />
+      )}
     </div>
   );
 };
