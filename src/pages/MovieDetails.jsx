@@ -3,34 +3,30 @@ import { useEffect, useState } from "react";
 function MovieDetails({ imdbID, onClose }) {
   const [movie, setMovie] = useState(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!imdbID) return;
 
     async function getMovieDetails() {
-      try {
-        const apiKey = process.env.REACT_APP_OMBD_API_KEY;
-        const response = await fetch(
-          `https://www.omdbapi.com/?i=tt0848228&apikey=624cd05f`,
-        );
-        const data = await response.json();
+      if (!imdbID) return;
 
-        if (data.Response === "True") {
-          setMovie(data);
-        } else {
-          setMessage(data.Error || "Could not load movie details.");
-        }
-      } catch {
-        setMessage("Could not load movie details. Please try again.");
+      async function getMovieDetails() {
+        setLoading(true);
+        setMessage("");
+        setMovie(null);
       }
     }
 
     getMovieDetails();
   }, [imdbID]);
 
+  if (loading) {
+    return <div className="movie__details">Loading movie details...</div>;
+  }
+
   if (message) return <div className="movie__details">{message}</div>;
-  if (movie)
-    return <div className="movie__details"> Loading movie details...</div>;
+  if (!movie) return null;
 
   return (
     <div className="movie__details--backdrop" onClick={onClose}>

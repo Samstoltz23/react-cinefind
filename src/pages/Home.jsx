@@ -3,24 +3,24 @@
 import { useState } from "react";
 import MovieCard from "./MovieCard";
 import MovieDetails from "./MovieDetails";
+import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedMovieID, setSelectedMovieID] = useState(null);
+  const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
     const title = searchQuery.trim();
+    if (!title) return;
 
-    if (!title) {
-      setMessage("Enter a movie title to search.");
-      setMovies([]);
-      return;
-    }
+    navigate(`/discover?q=${encodeURIComponent(title)}`);
+    
 
     setLoading(true);
     setMessage("");
@@ -102,27 +102,23 @@ const Home = () => {
       </section>
 
       <section id="results">
-        {message && <p>{message}</p>}
-
-        <div className="movie__grid">
-         {movies.map((movie) => (
-          <MovieCard 
+        {movies.map((movie) => (
+          <MovieCard
             key={movie.imdbID}
             movie={movie}
-            onSelect={setSelectedMovieID} 
+            onSelect={setSelectedMovieID}
           />
-        ))} 
-        </div>
+        ))}
       </section>
 
       {selectedMovieID && (
         <MovieDetails
           imdbID={selectedMovieID}
-          onClose={() => setSelectedMovieID()}
+          onClose={() => setSelectedMovieID(null)}
         />
       )}
     </div>
   );
-};
+}
 
 export default Home;
