@@ -31,7 +31,7 @@ function Discover() {
         const data = await response.json();
 
         if (data.Response === "True") {
-          setMovies(data);
+          setMovies(data.Search);
         } else {
           setMessage(data.Error || "Could not load movie details.");
         }
@@ -46,10 +46,10 @@ function Discover() {
   }, [query]);
 
   const sortedMovies = [...movies].sort((a, b) => {
-    if (sort === "az") return a.Title.localCompare(b.Title);
-    if (sort === "za") return b.Title.localCompare(a.Title);
+    if (sort === "az") return a.Title.localeCompare(b.Title);
+    if (sort === "za") return b.Title.localeCompare(a.Title);
     if (sort === "newest") return Number(b.Year) - (a.Year);
-    if (sort === "az") return Number(a.Year) - (b.Year);
+    if (sort === "oldest") return Number(a.Year) - (b.Year);
     return 0;
   });
 

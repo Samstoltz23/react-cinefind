@@ -1,5 +1,3 @@
-//api key = 624cd05f
-
 import { useState } from "react";
 import MovieCard from "./MovieCard";
 import MovieDetails from "./MovieDetails";
@@ -26,25 +24,7 @@ function Home() {
     setMessage("");
     setMovies([]);
 
-    try {
-      const apiKey = process.env.REACT_APP_OMDB_API_KEY;
-      const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(title)}`;
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.Response === "True") {
-        setMovies(data.Search);
-        setMessage("");
-      } else {
-        setMovies([]);
-        setMessage(data.Error || "No movies found.");
-      }
-    } catch {
-      setMovies([]);
-      setMessage("Could not load movies. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    
   };
 
   return (
